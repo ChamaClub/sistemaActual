@@ -3,12 +3,16 @@ rutaGastosJornada = "sistema/jornadas/" + sessionStorage.localcredencial + "/" +
 rutaDatosTurno = "sistema/jornadas/" + sessionStorage.localcredencial + "/" + rutas.jornadaActual + "/turnos/" + rutas.turnoactual + "/datosTurno/"
 rutaDatosImportantesGastos = "sistema/jornadas/" + sessionStorage.localcredencial + "/" + rutas.jornadaActual + "/datosImportantes/"
 
+
+
 function guardarGasto(monto, motivo,tipo) {
 
     var monto = monto.replace(".", "");
     var monto = monto.replace(".", "");
     var monto = monto.replace(".", "");
-    var monto = monto.replace(".", "");
+    var monto = monto.replace(",", "");
+    var monto = monto.replace(",", "");
+    var monto = monto.replace(",", "");
     if(parseInt(monto)<30000){
         db.ref("sistema/notificaciones/coyhaique/").push({
             fecha:obtenerFecha(),
@@ -51,7 +55,7 @@ function restarGastos(gastoNuevo) {
     db.ref(rutaDatosImportantesGastos).once('value', function(datosPremios) {
         if (datosPremios.val().gastos == undefined) {} else {
             gastosActuales = gastoNuevo;
-            gastosActuales = parseInt(datosPremios.val().gastos) + parseInt(gastoNuevo)
+            gastosActuales = parseInt(datosPremios.val().gastos) - parseInt(gastoNuevo)
         }
     }).then(function(datos) {
         db.ref(rutaDatosImportantesGastos).update({
